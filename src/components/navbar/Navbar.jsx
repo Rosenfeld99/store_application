@@ -136,14 +136,14 @@ export default function Example() {
     const [open, setOpen] = useState(false)
 
     return (
-        <div className="bg-white">
+        <div className="bg-white sticky z-50 top-0">
             {/* Mobile menu */}
             <NavMobile navigation={navigation} open={open} setOpen={setOpen} classNames={classNames} />
 
             <header className="relative bg-[#464748]">
                 <AuthAndCurrency />
 
-                <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <nav aria-label="Top" className="px-4 sm:px-6 lg:px-8">
                     <div className="border-b border-gray-200">
                         <div className="flex h-16 items-center justify-between">
                             <button
@@ -163,6 +163,7 @@ export default function Example() {
                                     <img
                                         className="h-8 w-auto"
                                         src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                                        // src="/logo_white.png"
                                         alt=""
                                     />
                                 </a>
