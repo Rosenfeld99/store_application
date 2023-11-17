@@ -41,12 +41,12 @@ const product = {
     sizes: [
         { name: 'XXS', inStock: false },
         { name: 'XS', inStock: true },
-        { name: 'S', inStock: true },
-        { name: 'M', inStock: true },
-        { name: 'L', inStock: true },
-        { name: 'XL', inStock: true },
-        { name: '2XL', inStock: true },
-        { name: '3XL', inStock: true },
+        // { name: 'S', inStock: true },
+        // { name: 'M', inStock: true },
+        // { name: 'L', inStock: true },
+        // { name: 'XL', inStock: true },
+        // { name: '2XL', inStock: true },
+        // { name: '3XL', inStock: true },
     ],
     description:
         'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
@@ -69,46 +69,59 @@ const ProdOverviews = () => {
     const [selectedSize, setSelectedSize] = useState(product.sizes[2])
     return (
         <div className="bg-white">
-            <div className="pt-6">
+            <div className="p-0 sm:p-4 lg:p-8 xl:p-3">
                 {/* Breadcrombs */}
                 <BreadCrumbs product={product} />
+                <div className="gap-5 grid grid-cols-1 md:grid-cols-2">
 
-                {/* Image gallery */}
-                <ImagesBox product={product} />
+                    {/* Image gallery */}
+                    <ImagesBox product={product} />
 
-                {/* Product info */}
-                <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
-                    <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                        <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+                    {/* Product info */}
+                    <div className="mx-auto max-w-2xl flex flex-col gap-5 p-3 sm:p-0">
+                        <div className="lg:col-span-2 lg:pr-8">
+                            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+                        </div>
+
+                        {/* Deacriptions */}
+                        <div>
+                            <h3 className="sr-only">Description</h3>
+
+                            <div className="space-y-6">
+                                <p className="text-base text-gray-900">{product.description}</p>
+                            </div>
+                        </div>
+
+                        {/* Options */}
+                        <div className="mt-4 lg:row-span-3 lg:mt-0">
+                            <h2 className="sr-only">Product information</h2>
+                            <p className="text-3xl tracking-tight text-gray-900">{product.price}</p>
+
+                            {/* Reviews */}
+                            <ReviewsProd reviews={reviews} classNames={classNames} />
+
+                            <form className="mt-10">
+                                {/* Colors */}
+                                <ColorsProd classNames={classNames} product={product} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
+
+                                {/* Sizes */}
+                                <SizesProd classNames={classNames} selectedSize={selectedSize} setSelectedSize={setSelectedSize} product={product} />
+
+                                <button
+                                    type="submit"
+                                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                >
+                                    Add to bag
+                                </button>
+                            </form>
+                        </div>
+
+
                     </div>
 
-                    {/* Options */}
-                    <div className="mt-4 lg:row-span-3 lg:mt-0">
-                        <h2 className="sr-only">Product information</h2>
-                        <p className="text-3xl tracking-tight text-gray-900">{product.price}</p>
-
-                        {/* Reviews */}
-                        <ReviewsProd reviews={reviews} classNames={classNames} />
-
-                        <form className="mt-10">
-                            {/* Colors */}
-                            <ColorsProd classNames={classNames} product={product} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
-
-                            {/* Sizes */}
-                            <SizesProd classNames={classNames} selectedSize={selectedSize} setSelectedSize={setSelectedSize} product={product} />
-
-                            <button
-                                type="submit"
-                                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            >
-                                Add to bag
-                            </button>
-                        </form>
-                    </div>
-
-                    {/* Description and details and highlights */}
-                    <ProdDetails product={product} />
                 </div>
+                {/*  Details and highlights */}
+                <ProdDetails product={product} />
             </div>
         </div>)
 }

@@ -3,7 +3,7 @@ import React from 'react'
 const BreadCrumbs = ({ product }) => {
     return (
         <nav aria-label="Breadcrumb">
-            <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+            <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-4">
                 {product.breadcrumbs.map((breadcrumb) => (
                     <li key={breadcrumb.id}>
                         <div className="flex items-center">
