@@ -2,6 +2,7 @@ import React from 'react'
 import { RadioGroup } from '@headlessui/react'
 
 const SizesProd = ({ selectedSize, setSelectedSize, classNames, product }) => {
+    // console.log(product);
     return (
         <div className="mt-10">
             <div className="flex items-center justify-between">

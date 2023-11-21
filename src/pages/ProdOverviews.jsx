@@ -39,14 +39,50 @@ const product = {
         { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
     ],
     sizes: [
-        { name: 'XXS', inStock: false },
-        { name: 'XS', inStock: true },
-        // { name: 'S', inStock: true },
-        // { name: 'M', inStock: true },
-        // { name: 'L', inStock: true },
-        // { name: 'XL', inStock: true },
-        // { name: '2XL', inStock: true },
-        // { name: '3XL', inStock: true },
+        {
+            name: 'XXS', inStock: false, colors: [
+                { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+                { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+                { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+            ]
+        },
+        { name: 'XS', inStock: true, },
+        {
+            name: 'S', inStock: true, colors: [
+                { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+            ]
+        },
+        {
+            name: 'M', inStock: true, colors: [
+                { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+                { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+                { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+            ]
+        },
+        {
+            name: 'L', inStock: true, colors: [
+                { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+              
+            ]
+        },
+        {
+            name: 'XL', inStock: true, colors: [
+                { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+                { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+            ]
+        },
+        {
+            name: '2XL', inStock: true, colors: [
+                { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+                { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+            ]
+        },
+        {
+            name: '3XL', inStock: true, colors: [
+                { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+                { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+            ]
+        },
     ],
     description:
         'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
@@ -66,7 +102,8 @@ function classNames(...classes) {
 }
 const ProdOverviews = () => {
     const [selectedColor, setSelectedColor] = useState(product.colors[0])
-    const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+    const [selectedSize, setSelectedSize] = useState(product.sizes[3])
+    console.log(selectedSize);
     return (
         <div className="bg-white">
             <div className="p-0 sm:p-4 lg:p-8 xl:p-3">
@@ -102,7 +139,7 @@ const ProdOverviews = () => {
 
                             <form className="mt-10">
                                 {/* Colors */}
-                                <ColorsProd classNames={classNames} product={product} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
+                                <ColorsProd selectedSize={selectedSize} classNames={classNames} product={product} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
 
                                 {/* Sizes */}
                                 <SizesProd classNames={classNames} selectedSize={selectedSize} setSelectedSize={setSelectedSize} product={product} />

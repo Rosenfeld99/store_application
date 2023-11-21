@@ -5,7 +5,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 const NavMobile = ({open,setOpen,navigation,classNames}) => {
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
+            <Dialog as="div" className="relative z-50 lg:hidden" onClose={setOpen}>
                 <Transition.Child
                     as={Fragment}
                     enter="transition-opacity ease-linear duration-300"
@@ -43,7 +43,7 @@ const NavMobile = ({open,setOpen,navigation,classNames}) => {
 
                             {/* Links */}
                             <Tab.Group as="div" className="mt-2">
-                                <div className="border-b border-gray-200">
+                                <div className="border-b border-gray-200 ">
                                     <Tab.List className="-mb-px flex space-x-8 px-4">
                                         {navigation.categories.map((category) => (
                                             <Tab

@@ -1,7 +1,8 @@
 import React from 'react'
 import { RadioGroup } from '@headlessui/react'
 
-const ColorsProd = ({selectedColor,setSelectedColor,product,classNames}) => {
+const ColorsProd = ({selectedColor,setSelectedColor,product,classNames,selectedSize}) => {
+    // console.log(selectedSize[0]?.colors);
     return (
         <div>
             <h3 className="text-sm font-medium text-gray-900">Color</h3>
@@ -9,7 +10,7 @@ const ColorsProd = ({selectedColor,setSelectedColor,product,classNames}) => {
             <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-4">
                 <RadioGroup.Label className="sr-only">Choose a color</RadioGroup.Label>
                 <div className="flex items-center space-x-3">
-                    {product.colors.map((color) => (
+                    {selectedSize?.colors?.map((color) => (
                         <RadioGroup.Option
                             key={color.name}
                             value={color}
