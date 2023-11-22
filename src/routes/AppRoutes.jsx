@@ -18,7 +18,7 @@ const AppRoutes = () => {
             {/* User */}
             <Routes>
                 <Route index element={<Home />} />
-                <Route path='/product/:id' element={<ProdOverviews />} />
+                <Route path='/products/:id' element={<ProdOverviews />} />
             </Routes>
             {/* Admin */}
             <Routes>

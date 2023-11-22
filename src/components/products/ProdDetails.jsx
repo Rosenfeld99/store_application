@@ -46,7 +46,7 @@ const ProdDetails = ({ product }) => {
         <h4>Based on 117 reviews</h4>
         <div className='flex flex-col'>
           {[1, 2, 3, 4].map((item, i) => (
-            <div className=' border-b-2 py-10 space-y-3'>
+            <div key={i} className=' border-b-2 py-10 space-y-3'>
               <div className=' flex items-center gap-4'>
                 <div className="">
                   <img className='w-10 h-10 rounded-full' src="/sets_worker_silver.png" alt="" />

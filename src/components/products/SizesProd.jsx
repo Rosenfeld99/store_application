@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RadioGroup } from '@headlessui/react'
 
 const SizesProd = ({ selectedSize, setSelectedSize, classNames, product }) => {
-    // console.log(product);
+    useEffect(()=>{
+        product?.sizes && setSelectedSize(product?.sizes[0])
+    },[product])
+    // console.log(selectedSize);
     return (
         <div className="mt-10">
             <div className="flex items-center justify-between">
@@ -15,7 +18,7 @@ const SizesProd = ({ selectedSize, setSelectedSize, classNames, product }) => {
             <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
                 <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                 <div className="grid gap-4 grid-cols-6">
-                    {product.sizes.map((size) => (
+                    {product?.sizes?.map((size) => (
                         <RadioGroup.Option
                             key={size.name}
                             value={size}

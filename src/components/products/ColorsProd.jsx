@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RadioGroup } from '@headlessui/react'
 
 const ColorsProd = ({selectedColor,setSelectedColor,product,classNames,selectedSize}) => {
-    // console.log(selectedSize[0]?.colors);
+    useEffect(()=>{
+        product?.sizes && setSelectedColor(product?.sizes[0]?.colors[0])
+    },[product])
     return (
         <div>
             <h3 className="text-sm font-medium text-gray-900">Color</h3>

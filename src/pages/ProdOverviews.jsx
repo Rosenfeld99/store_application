@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import ImagesBox from '../components/products/ImagesBox'
 import ColorsProd from '../components/products/ColorsProd'
@@ -6,6 +6,9 @@ import SizesProd from '../components/products/SizesProd'
 import BreadCrumbs from '../utils/breadCrumbs/BreadCrumbs'
 import ReviewsProd from '../components/products/ReviewsProd'
 import ProdDetails from '../components/products/ProdDetails'
+import { useParams } from 'react-router-dom'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../firebase/firebase'
 
 const product = {
     name: 'Basic Tee 6-Pack',
@@ -62,7 +65,7 @@ const product = {
         {
             name: 'L', inStock: true, colors: [
                 { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
-              
+
             ]
         },
         {
@@ -101,9 +104,26 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 const ProdOverviews = () => {
-    const [selectedColor, setSelectedColor] = useState(product.colors[0])
-    const [selectedSize, setSelectedSize] = useState(product.sizes[3])
-    console.log(selectedSize);
+    const { id } = useParams()
+    const [product,setProduct] = useState({})
+    const [selectedColor, setSelectedColor] = useState(product?.sizes && product?.sizes[0]?.colors[0])
+    const [selectedSize, setSelectedSize] = useState(product?.sizes && product?.sizes[0])
+    console.log(id);
+    useEffect(() => {
+        const fetchSingleData = async () => {
+            const ref = doc(db, "products", id);
+            const docSnap = await getDoc(ref);
+            if (docSnap.exists()) {
+                // Convert to City object
+                setProduct(docSnap.data())
+                console.log(docSnap.data());
+            } else {
+                console.log("No such document!");
+            }
+        }
+        id && fetchSingleData()
+    }, [id])
+    // console.log(selectedSize);
     return (
         <div className="bg-white">
             <div className="p-0 sm:p-4 lg:p-8 xl:p-3">
