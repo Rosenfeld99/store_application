@@ -36,7 +36,7 @@ const ProdAdminDetail = () => {
         }
         !isNewProd && fetchSingleData()
     }, [id])
-    const [product, setProduct] = useState({ images: dummyImages } || {})
+    const [product, setProduct] = useState({})
 
     const handleSubmit = async (e) => {
         e.preventDefault()

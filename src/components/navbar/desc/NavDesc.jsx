@@ -14,7 +14,7 @@ const NavDesc = ({ navigation, classNames, open, }) => {
                                         <Popover.Button
                                             className={classNames(
                                                 open
-                                                    ? 'border-white text-white'
+                                                    ? 'border-white outline-none text-white'
                                                     : 'border-transparent text-white hover:text-gray-800',
                                                 'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                             )}
