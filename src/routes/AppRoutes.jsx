@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar'
 import Home from '../pages/Home'
@@ -7,13 +6,21 @@ import Dashboard from '../auth/admin/Dashboard'
 import SiderLayout from '../auth/comps/siderLayout/SiderLayout'
 import ProdAdmin from '../auth/admin/ProdAdmin'
 import ProdAdminDetail from '../auth/admin/ProdAdminDetail'
+import Regisetr from '../pages/Regisetr'
+import Login from '../pages/Login'
 
 const AppRoutes = () => {
     return (
         <BrowserRouter>
+            {/* Menus */}
             <Routes>
                 <Route path='/*' element={<Navbar />} />
                 <Route path='admin/*' element={<SiderLayout />} />
+            </Routes>
+            {/* Auth */}
+            <Routes>
+                <Route path='/register' element={<Regisetr />} />
+                <Route path='/login' element={<Login />} />
             </Routes>
             {/* User */}
             <Routes>

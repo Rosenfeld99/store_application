@@ -45,8 +45,8 @@ export default function CatList() {
         <div className="py-10 xl:px-0 px-4">
             <h3 className=" py-3 font-bold text-2xl">Shop by Category</h3>
             <div className="carousel carousel-center space-x-4 rounded-box">
-                {[1, 2, 3, 4].map((item) => (
-                    <CatItem />
+                {[1, 2, 3, 4].map((item, i) => (
+                    <CatItem key={i} />
                 ))}
             </div>
         </div>

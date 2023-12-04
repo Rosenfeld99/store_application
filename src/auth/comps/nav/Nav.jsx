@@ -4,12 +4,28 @@ import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { IoSearchOutline } from "react-icons/io5";
+import { signOut } from "firebase/auth";
+import { auth } from '../../../firebase/firebase'
+import { useNavigate } from 'react-router-dom'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 const Nav = () => {
+    const navigate = useNavigate()
+
+    const handleSignOut = async (e) => {
+        e.preventDefault()
+
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            navigate('/login')
+        }).catch((error) => {
+            // An error happened.
+            console.log(error);
+        });
+    }
     return (
         <div className='flex items-center bg-[#131825] text-white w-full justify-end px-3 md:px-5 h-14 md:h-20 gap-3'>
             <div className=" flex justify-start w-full" >
@@ -55,11 +71,12 @@ const Nav = () => {
                                     </a>
                                 )}
                             </Menu.Item>
-                            <form method="POST" action="#">
+                            <div >
                                 <Menu.Item>
                                     {({ active }) => (
                                         <button
-                                            type="submit"
+                                            // type="submit"
+                                            onClick={handleSignOut}
                                             className={classNames(
                                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                 'block w-full px-4 py-2 text-left text-sm'
@@ -69,7 +86,7 @@ const Nav = () => {
                                         </button>
                                     )}
                                 </Menu.Item>
-                            </form>
+                            </div>
                         </div>
                     </Menu.Items>
                 </Transition>
