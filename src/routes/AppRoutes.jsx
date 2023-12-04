@@ -10,6 +10,7 @@ import Regisetr from '../pages/Regisetr'
 import Login from '../pages/Login'
 
 const AppRoutes = () => {
+
     return (
         <BrowserRouter>
             {/* Menus */}
@@ -32,6 +33,7 @@ const AppRoutes = () => {
                 <Route path='/admin' element={<Dashboard />} />
                 <Route path='/admin/products' element={<ProdAdmin />} />
                 <Route path='/admin/products/:id' element={<ProdAdminDetail />} />
+                <Route path='/admin/users' element={<ProdAdmin />} />
             </Routes>
         </BrowserRouter>
     )
