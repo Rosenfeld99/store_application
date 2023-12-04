@@ -8,6 +8,7 @@ import ProdAdmin from '../auth/admin/ProdAdmin'
 import ProdAdminDetail from '../auth/admin/ProdAdminDetail'
 import Regisetr from '../pages/Regisetr'
 import Login from '../pages/Login'
+import TabelListUsers from '../auth/admin/users/TabelListUsers'
 
 const AppRoutes = () => {
 
@@ -33,7 +34,7 @@ const AppRoutes = () => {
                 <Route path='/admin' element={<Dashboard />} />
                 <Route path='/admin/products' element={<ProdAdmin />} />
                 <Route path='/admin/products/:id' element={<ProdAdminDetail />} />
-                <Route path='/admin/users' element={<ProdAdmin />} />
+                <Route path='/admin/users' element={<TabelListUsers />} />
             </Routes>
         </BrowserRouter>
     )
