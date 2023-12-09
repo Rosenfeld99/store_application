@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { signOut } from "firebase/auth";
 import { auth } from '../../firebase/firebase'
+import Cart from '../cart/Cart'
 
 
 const navigation = {
@@ -139,6 +140,7 @@ function classNames(...classes) {
 
 export default function Example() {
     const [open, setOpen] = useState(false)
+    const [openCart, setOpenCart] = useState(false)
     const { currentUser } = useContext(AuthContext)
     const location = useLocation()
     const path = location.pathname
@@ -271,14 +273,16 @@ export default function Example() {
 
                                     {/* Cart */}
                                     <div className="ml-4 flow-root lg:ml-6">
-                                        <a href="#" className="group -m-2 flex items-center p-2">
+                                        <div className="group -m-2 flex items-center p-2" onClick={() => setOpenCart(true)}>
                                             <ShoppingBagIcon
                                                 className="h-6 w-6 flex-shrink-0 text-white group-hover:text-gray-500"
                                                 aria-hidden="true"
                                             />
                                             <span className="ml-2 text-sm font-medium text-white group-hover:text-gray-800">0</span>
                                             <span className="sr-only">items in cart, view bag</span>
-                                        </a>
+                                        </div>
+                                        {/* Cart */}
+                                        <Cart openCart={openCart} setOpenCart={setOpenCart} />
                                     </div>
                                 </div>
 
