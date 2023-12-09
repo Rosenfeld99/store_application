@@ -4,6 +4,7 @@ import { auth, db } from '../firebase/firebase';
 import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { PhotoIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import { getUserExists } from '../utils/func/firebaseFunc';
 
 const Regisetr = () => {
 
@@ -41,7 +42,7 @@ const Regisetr = () => {
             const user = result.user;
 
             console.log(user);
-            const userExists = await fetchDoc(user);
+            const userExists = await getUserExists(user);
 
             if (!userExists) {
                 // User does not exist, create a new document with the user's uid as the document ID
@@ -65,24 +66,7 @@ const Regisetr = () => {
         navigate('/');
     };
 
-    const fetchDoc = async (user) => {
-        const docRef = doc(db, "users", user.uid);
-
-        try {
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                console.log("User already exists:", docSnap.data());
-                return true; // User exists
-            } else {
-                console.log("User does not exist");
-                return false; // User does not exist
-            }
-        } catch (error) {
-            console.error("Error fetching user document:", error);
-            return false; // Assume user does not exist in case of an error
-        }
-    };
+    
 
 
 

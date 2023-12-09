@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar'
 import Home from '../pages/Home'
 import ProdOverviews from '../pages/ProdOverviews'
@@ -9,33 +9,39 @@ import ProdAdminDetail from '../auth/admin/ProdAdminDetail'
 import Regisetr from '../pages/Regisetr'
 import Login from '../pages/Login'
 import TabelListUsers from '../auth/admin/users/TabelListUsers'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
 
 const AppRoutes = () => {
+    const { currentUser } = useContext(AuthContext)
+
+    console.log(currentUser);
 
     return (
         <BrowserRouter>
             {/* Menus */}
             <Routes>
                 <Route path='/*' element={<Navbar />} />
-                <Route path='admin/*' element={<SiderLayout />} />
+                {currentUser?.role === "admin" && <Route path='admin/*' element={<SiderLayout />} />}
             </Routes>
-            {/* Auth */}
+            {/* User (free routes) */}
             <Routes>
+                {/* Auth */}
                 <Route path='/register' element={<Regisetr />} />
                 <Route path='/login' element={<Login />} />
-            </Routes>
-            {/* User */}
-            <Routes>
+                {/* Store */}
                 <Route index element={<Home />} />
                 <Route path='/products/:id' element={<ProdOverviews />} />
+                {/* Not found */}
+                <Route path='/*' element={<h2>Page 404</h2>} />
             </Routes>
-            {/* Admin */}
-            <Routes>
+            {/* Admin (routes protected!)*/}
+            {currentUser?.role === "admin" && <Routes>
                 <Route path='/admin' element={<Dashboard />} />
                 <Route path='/admin/products' element={<ProdAdmin />} />
                 <Route path='/admin/products/:id' element={<ProdAdminDetail />} />
                 <Route path='/admin/users' element={<TabelListUsers />} />
-            </Routes>
+            </Routes>}
         </BrowserRouter>
     )
 }

@@ -231,38 +231,41 @@ export default function Example() {
                                                 leaveFrom="transform opacity-100 scale-100"
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
-                                                <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                    <div className="py-1">
-                                                        <Menu.Item>
-                                                            {({ active }) => (
-                                                                <a
-                                                                    // href="#"
-                                                                    className={classNames(
-                                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                        'block px-4 py-2 text-sm'
-                                                                    )}
-                                                                >
-                                                                    Your profile
-                                                                </a>
-                                                            )}
-                                                        </Menu.Item>
-                                                        <div onClick={handleSignOut}>
+                                                <div>
+                                                    <div className=' w-5 h-5 bg-white absolute top-0 right-0 mt-10 mr-2 rotate-45' />
+                                                    <Menu.Items className="absolute right-0 z-10 mt-10 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                        <div className="py-1 relative">
                                                             <Menu.Item>
                                                                 {({ active }) => (
-                                                                    <button
-                                                                        // type="submit"
+                                                                    <a
+                                                                        // href="#"
                                                                         className={classNames(
                                                                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                            'block w-full px-4 py-2 text-left text-sm'
+                                                                            'block px-4 py-2 text-sm'
                                                                         )}
                                                                     >
-                                                                        Sign out
-                                                                    </button>
+                                                                        Your profile
+                                                                    </a>
                                                                 )}
                                                             </Menu.Item>
+                                                            <div onClick={handleSignOut}>
+                                                                <Menu.Item>
+                                                                    {({ active }) => (
+                                                                        <button
+                                                                            // type="submit"
+                                                                            className={classNames(
+                                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                                'block w-full px-4 py-2 text-left text-sm'
+                                                                            )}
+                                                                        >
+                                                                            Sign out
+                                                                        </button>
+                                                                    )}
+                                                                </Menu.Item>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </Menu.Items>
+                                                    </Menu.Items>
+                                                </div>
                                             </Transition>
                                         </Menu>}
 
