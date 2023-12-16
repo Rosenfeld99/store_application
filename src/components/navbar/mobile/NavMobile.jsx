@@ -15,7 +15,7 @@ const NavMobile = ({open,setOpen,navigation,classNames}) => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    <div className="fixed inset-0 bg-black bg-opacity-50" />
                 </Transition.Child>
 
                 <div className="fixed inset-0 z-40 flex">
@@ -50,7 +50,7 @@ const NavMobile = ({open,setOpen,navigation,classNames}) => {
                                                 key={category.name}
                                                 className={({ selected }) =>
                                                     classNames(
-                                                        selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-900',
+                                                        selected ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-900',
                                                         'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium'
                                                     )
                                                 }

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { doc, getDoc, collection, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { db } from '../../firebase/firebase';
-import BtnsActions from '../comps/prodForm/BtnsActions';
-import ChooseActivity from '../comps/prodForm/ChooseActivity';
-import Highlights from '../comps/prodForm/Highlights';
-import Details from '../comps/prodForm/Details';
-import Options from '../comps/prodForm/Options';
-import Media from '../comps/prodForm/Media';
-import NameAndDesc from '../comps/prodForm/NameAndDesc';
+import { db } from '../../../firebase/firebase';
+import BtnsActions from '../../comps/prodForm/BtnsActions';
+import ChooseActivity from '../../comps/prodForm/ChooseActivity';
+import Highlights from '../../comps/prodForm/Highlights';
+import Details from '../../comps/prodForm/Details';
+import Options from '../../comps/prodForm/Options';
+import Media from '../../comps/prodForm/Media';
+import Description from '../../comps/prodForm/Description';
 import { useParams } from 'react-router-dom';
+import Name from '../../comps/prodForm/Name';
 
 let dummyImages = [
     { src: "http://localhost:5173/sets_worker_silver.png", alt: "some iamge", imageId: 1 },
@@ -65,8 +66,11 @@ const ProdAdminDetail = () => {
                 <div className="space-y-12">
                     <div className=" border-t border-gray-900/10 ">
                         <div className="mt-10 ">
-                            {/* Nmae And Deacription */}
-                            <NameAndDesc product={product} setProduct={setProduct} />
+                            {/* Product name */}
+                            <Name placeHolder={"Product name"} keyName={"productName"} setState={setProduct} state={product}/>
+
+                            {/* Deacription */}
+                            <Description product={product} setProduct={setProduct} />
 
                             {/* Media */}
                             <Media product={product} setProduct={setProduct} />

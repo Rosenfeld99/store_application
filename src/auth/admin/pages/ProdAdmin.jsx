@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaImage } from 'react-icons/fa';
 import { TbListDetails } from "react-icons/tb";
 import { doc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { db } from '../../firebase/firebase';
+import { db } from '../../../firebase/firebase';
 import { useNavigate } from 'react-router-dom';
 
 const ProdAdmin = () => {

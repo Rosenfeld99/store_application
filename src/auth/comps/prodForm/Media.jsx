@@ -10,8 +10,8 @@ const Media = ({ product,setProduct }) => {
     }
 
     const handleAddImage = (newImage) => {
-        const upDateImages = product.images
-        upDateImages.push({ src: newImage, alt: 'some text', imageId: Date.now() })
+        const upDateImages = product.images || []
+        upDateImages?.push({ src: newImage, alt: 'some text', imageId: Date.now() })
         setProduct({ ...product, images: upDateImages })
         console.log(upDateImages);
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
@@ -10,6 +10,14 @@ function classNames(...classes) {
 const ProdDetails = ({ product }) => {
   const [toggelHighlights, setToggelHighlights] = useState(false)
   const [toggelDetails, setToggelDetails] = useState(false)
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [])
   return (
     <div className="mt-10 py-10 lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-5 lg:pb-16 lg:pt-6 p-3 sm:p-0">
       <div>

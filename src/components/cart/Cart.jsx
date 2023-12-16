@@ -41,7 +41,7 @@ export default function Cart({openCart, setOpenCart}) {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
                 </Transition.Child>
 
                 <div className="fixed inset-0 overflow-hidden">
@@ -103,7 +103,7 @@ export default function Cart({openCart, setOpenCart}) {
                                                                         <div className="flex">
                                                                             <button
                                                                                 type="button"
-                                                                                className="font-medium text-indigo-600 hover:text-indigo-500"
+                                                                                className="font-medium text-blue-600 hover:text-indigo-500"
                                                                             >
                                                                                 Remove
                                                                             </button>
@@ -126,7 +126,7 @@ export default function Cart({openCart, setOpenCart}) {
                                             <div className="mt-6">
                                                 <a
                                                     href="#"
-                                                    className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                                                    className="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700"
                                                 >
                                                     Checkout
                                                 </a>
@@ -136,7 +136,7 @@ export default function Cart({openCart, setOpenCart}) {
                                                     or
                                                     <button
                                                         type="button"
-                                                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                                                        className="font-medium text-blue-600 hover:text-blue-500"
                                                         onClick={() => setOpenCart(false)}
                                                     >
                                                         Continue Shopping

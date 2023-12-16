@@ -4,7 +4,7 @@ import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@her
 import NavMobile from './mobile/NavMobile'
 import NavDesc from './desc/NavDesc'
 import AuthAndCurrency from './desc/AuthAndCurrency'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { signOut } from "firebase/auth";
 import { auth } from '../../firebase/firebase'
@@ -191,7 +191,7 @@ export default function Example() {
 
                                 {/* Logo */}
                                 <div className="ml-4 flex lg:ml-0 items-center">
-                                    <a href="#">
+                                    <Link to={'/'}>
                                         <span className="sr-only">Your Company</span>
                                         <img
                                             className="h-8 w-auto"
@@ -199,7 +199,7 @@ export default function Example() {
                                             // src="/logo_white.png"
                                             alt=""
                                         />
-                                    </a>
+                                    </Link>
                                     {/* Search */}
                                     <div className="lg:flex hidden">
                                         <a href="#" className="p-2 text-white hover:text-gray-500">
@@ -221,7 +221,7 @@ export default function Example() {
                                         <Menu as="div" className="relative flex">
                                             <Menu.Button>
                                                 <div className=''>
-                                                    <img className='h-8 w-8 object-cover rounded-full' src="/sets_pigro_silver.png" alt="" />
+                                                    <img className='h-8 w-8 object-cover rounded-full' src={currentUser?.photoURL || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="profile image" />
                                                 </div>
                                             </Menu.Button>
                                             <Transition
