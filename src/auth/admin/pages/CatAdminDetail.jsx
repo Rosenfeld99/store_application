@@ -12,12 +12,21 @@ import Name from '../../comps/prodForm/Name';
 import Modal from '../../../utils/components/Modal';
 import Input from '../../../utils/components/Input';
 import ImageUpload from '../../../utils/components/ImageUpload';
-import { FaTrash,FaPen } from 'react-icons/fa6';
+import { FaTrash, FaPen } from 'react-icons/fa6';
 
 const CatAdminDetail = () => {
     const { id } = useParams()
     const [isNewCat, seIsNewCat] = useState(id === "new")
+    const [isNewFeatured, setIsNewFeatured] = useState(true)
     const [category, setCategory] = useState({})
+    const [featured, setFeatured] = useState(
+        //     category?.featured || [
+        //     { id: 1, href: "google.com", name: "new avirals", imageSrc: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/640px-Google_%22G%22_logo.svg.png", imageAlt: "New featured" },
+        //     { id: 2, href: "wikipdia.com", name: "new doc", imageSrc: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikipedia%27s_W.svg/2048px-Wikipedia%27s_W.svg.png", imageAlt: "New featured" },
+        // ]
+    )
+    const [newFeatured, setNewFeatured] = useState({ href: "", name: "", imageSrc: "", imageAlt: "", id: Date.now() })
+    const [open, setOpen] = useState(false)
     console.log(isNewCat);
     console.log(id);
     useEffect(() => {
@@ -27,6 +36,7 @@ const CatAdminDetail = () => {
             if (docSnap.exists()) {
                 // Convert to City object
                 setCategory(docSnap.data())
+                setFeatured(docSnap.data()?.featured)
                 console.log(docSnap.data());
             } else {
                 console.log("No such document!");
@@ -37,7 +47,9 @@ const CatAdminDetail = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setCategory({...category,"featured":featured})
         console.log(category);
+
         if (isNewCat) {
             // Add a new document with a generated id.
             const docRef = await addDoc(collection(db, "categories"), {
@@ -46,7 +58,8 @@ const CatAdminDetail = () => {
             });
             console.log("Document written with ID: ", docRef.id);
         } else {
-            // Set the "capital" field of the city 'DC'
+            console.log(category);
+            // Set the "category" field of the categories
             const washingtonRef = doc(db, "categories", id);
             await updateDoc(washingtonRef, {
                 ...category
@@ -54,18 +67,59 @@ const CatAdminDetail = () => {
         }
     }
 
+
+    const handleAddFeatured = () => {
+        setFeatured([...featured, newFeatured])
+        initFeaturedObject()
+        setOpen(false)
+    }
+
+    const handleDeleteFeatured = (featuredId) => {
+        const filteredArray = featured?.filter((item) => item?.id !== featuredId)
+        setFeatured(filteredArray)
+    }
+    const handleUpdateFeatured = () => {
+        let updateArray = [...featured];
+        for (let index = 0; index < featured?.length; index++) {
+            if (featured[index]?.id === newFeatured?.id) {
+                console.log(updateArray);
+                updateArray[index] = {
+                    ...updateArray[index],
+                    name: newFeatured?.name,
+                    href: newFeatured?.href,
+                    imageAlt: newFeatured?.imageAlt,
+                    imageSrc: newFeatured?.imageSrc,
+                };
+            }
+        }
+
+        setFeatured(updateArray);
+        initFeaturedObject()
+        setIsNewFeatured(true)
+        setOpen(false)
+    };
+
+    const initFeaturedObject = () => {
+        setIsNewFeatured(true)
+        return setNewFeatured({ href: "", name: "", imageSrc: "", imageAlt: "", id: Date.now() })
+    }
+
     const contentFeatured = <>
         {/* featured Name */}
-        <Input defaultValue={"some name"} funcState={''} placeholder={"Featured name"} label={"Name"} />
+        <Input value={newFeatured?.name} setState={''} funcState={(e) => setNewFeatured({ ...newFeatured, "name": e.target.value })} placeholder={"Featured name"} label={"Name"} />
         {/* featured Href */}
-        <Input defaultValue={"some href"} funcState={''} placeholder={"Featured name"} label={"Href"} />
+        <Input value={newFeatured?.href} setState={''} funcState={(e) => setNewFeatured({ ...newFeatured, "href": e.target.value })} placeholder={"Featured href"} label={"Href"} />
         {/* featured ImageSrc & ImageAlt*/}
-        <ImageUpload />
+        <ImageUpload state={newFeatured} setState={setNewFeatured} />
         <div className=' flex items-center gap-2'>
-            <button className=' btn btn-sm bg-green-500 hover:bg-green-700 text-white rounded-md'>Add</button>
-            <form method="dialog">
-                <button type='submit' className=' btn btn-sm rounded-md'>Cancel</button>
-            </form>
+            <button disabled={
+                newFeatured?.name === "" || newFeatured?.imageSrc === "" ||
+                newFeatured?.imageAlt === "" ||
+                newFeatured?.href === ""} className=' btn btn-sm bg-green-500 hover:bg-green-700 text-white rounded-md' onClick={isNewFeatured ? handleAddFeatured : handleUpdateFeatured
+                }>{isNewFeatured ? "Add" : "Update"}</button>
+            <button onClick={() => {
+                setOpen(false), initFeaturedObject()
+            }} className=' btn btn-sm rounded-md'>Cancel</button>
         </div>
     </>
     return (
@@ -83,17 +137,23 @@ const CatAdminDetail = () => {
                             <label className="block text-sm font-medium leading-6 text-gray-900 mt-5">
                                 Featureds
                             </label>
-                            <Modal title={"Add featured!"} content={contentFeatured} btnOpenModal={"Add featured"} />
+                            <Modal initFeaturedObject={initFeaturedObject} open={open} setOpen={setOpen} title={"Add featured!"} content={contentFeatured} btnOpenModal={"Add featured"} />
                             <div className=' grid gap-2 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
-                                {[0, 1, 2, 3].map((__, index) => (<div className=' flex items-center gap-3 justify-between p-2 bg-gray-100 w-full rounded-sm overflow-x-auto'>
+                                {featured?.map((item) => (<div key={item?.id} className=' flex items-center gap-3 justify-between p-2 bg-gray-100 w-full rounded-sm overflow-x-auto'>
                                     <div className=' flex items-center gap-3'>
-                                        <img className='h-[50px] w-[50px] object-cover rounded-md' src="/banner_contact.png" alt="" />
-                                        <p>Name Lorem, ipsum dolor.</p>{/* .substrin(0,10) */}
-                                        <p>Href</p>{/* .substrin(0,10) */}
+                                        <img className='h-[50px] w-[50px] object-cover rounded-md' src={item?.imageSrc} alt={item?.imageAlt} />
+                                        <p>{item?.name?.substring(0, 10)}</p>
+                                        <p>{item?.href?.substring(0, 10)}</p>
                                     </div>
                                     <div className=' flex items-center gap-2'>
-                                        <button className=' btn btn-sm bg-blue-600 hover:bg-blue-700 rounded-md text-white'><FaPen /></button>
-                                        <button className=' btn btn-sm bg-red-600 hover:bg-red-700 rounded-md text-white'><FaTrash /></button>
+                                        <button onClick={() => {
+                                            setOpen(true)
+                                            const singleFeatured = featured?.find((searchItem) => searchItem?.id === item?.id)
+                                            setNewFeatured(singleFeatured)
+                                            console.log(singleFeatured);
+                                            setIsNewFeatured(false)
+                                        }} className=' btn btn-sm bg-blue-600 hover:bg-blue-700 rounded-md text-white'><FaPen /></button>
+                                        <button onClick={() => { handleDeleteFeatured(item?.id) }} className=' btn btn-sm bg-red-600 hover:bg-red-700 rounded-md text-white'><FaTrash /></button>
                                     </div>
                                 </div>))}
                             </div>

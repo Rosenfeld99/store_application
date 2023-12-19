@@ -17,7 +17,7 @@ import CatAdminDetail from '../auth/admin/pages/CatAdminDetail'
 const AppRoutes = () => {
     const { currentUser } = useContext(AuthContext)
 
-    console.log(currentUser);
+    // console.log(currentUser);
 
     return (
         <BrowserRouter>
