@@ -78,14 +78,12 @@ const CatAdmin = () => {
                             <td>
                                 <div className="avatar">
                                     <div className="mask mask-squircle w-12 h-12">
-                                        {category?.featured?.imageSrc && <img src={category?.featured?.imageSrc} alt="Avatar Tailwind CSS Component" />}
+                                        {category?.featured[0]?.imageSrc && <img src={category?.featured[0]?.imageSrc} alt="Avatar Tailwind CSS Component" />}
                                     </div>
                                 </div>
                             </td>
-                            <td className=' capitalize'>
+                            <td className=' capitalize font-semibold'>
                                 {category?.name}
-                                <br />
-                                <span className="badge badge-ghost badge-sm">sets , bracelet , necklace</span>
                             </td>
                             <td>
                                 <span className=' flex items-center gap-2 capitalize'>{category?.activity}
@@ -98,11 +96,26 @@ const CatAdmin = () => {
                                 <button className="btn btn-ghost btn-xs">details</button>
                             </th>
                             <td>
-                                <samp>{category?.featured?.name}</samp>
+                                <samp>
+                                    {category?.featured?.slice(0, 3).map((featuredItem, i) => (
+                                        <span key={i} className="badge badge-ghost badge-sm">
+                                            {featuredItem?.name}
+                                            {i + 1 !== Math.min(3, category?.featured?.length) ? "," : ""}
+                                        </span>
+                                    ))}
+                                    {category?.featured?.length > 3 && <span className="badge badge-ghost badge-sm">...</span>}
+                                </samp>
                             </td>
                             <td>
-                                <span>{category?.section?.name}</span>
-                            </td>
+                                <samp>
+                                    {category?.sections?.slice(0, 3).map((sectionItem, i) => (
+                                        <span key={i} className="badge badge-ghost badge-sm">
+                                            {sectionItem?.name}
+                                            {i + 1 !== Math.min(3, category?.featured?.length) ? "," : ""}
+                                        </span>
+                                    ))}
+                                    {category?.featured?.length > 3 && <span className="badge badge-ghost badge-sm">...</span>}
+                                </samp>                            </td>
                             <td className=' flex items-center gap-4 justify-center'>
                                 <button onClick={() => navigate(`/categories/${category?.id}`)} className=' btn btn-sm border-green-700 bg-transparent text-green-700'>
                                     View

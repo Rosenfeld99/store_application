@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { doc, getDoc, collection, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebase/firebase';
-import BtnsActions from '../../comps/prodForm/BtnsActions';
-import ChooseActivity from '../../comps/prodForm/ChooseActivity';
-import Highlights from '../../comps/prodForm/Highlights';
-import Details from '../../comps/prodForm/Details';
-import Options from '../../comps/prodForm/Options';
-import Media from '../../comps/prodForm/Media';
-import Description from '../../comps/prodForm/Description';
+import {Name,BtnsActions,ChooseActivity,Description,Details,Highlights,Media,Options} from '../../comps/prodForm';
 import { useParams } from 'react-router-dom';
-import Name from '../../comps/prodForm/Name';
 
 let dummyImages = [
     { src: "http://localhost:5173/sets_worker_silver.png", alt: "some iamge", imageId: 1 },
@@ -87,7 +80,7 @@ const ProdAdminDetail = () => {
                         </div>
                     </div>
                     {/* Choose activity */}
-                    <ChooseActivity product={product} setProduct={setProduct} />
+                    <ChooseActivity state={product} setState={setProduct} type={"product"}/>
                 </div>
                 {/* Btns Action */}
                 <BtnsActions />

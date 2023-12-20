@@ -1,17 +1,17 @@
 import React from 'react'
 
-const ChooseActivity = ({setProduct,product}) => {
+const ChooseActivity = ({setState,state,type}) => {
     return (
         <div className="border-b border-gray-900/10 pb-12">
             <div className="mt-10 space-y-10">
                 <fieldset>
                     <legend className="text-sm font-semibold leading-6 text-gray-900">Choose activity</legend>
-                    <p className="mt-1 text-sm leading-6 text-gray-600">Click to display or hide product in store.</p>
+                    <p className="mt-1 text-sm leading-6 text-gray-600">Click to display or hide {type} in store.</p>
                     <div className="mt-6 space-y-6">
                         <div className="flex items-center gap-x-3">
                             <input
-                                onChange={(e) => setProduct({ ...product, activity: e.target.value })}
-                                checked={product?.activity === 'active'}
+                                onChange={(e) => setState({ ...state, activity: e.target.value })}
+                                checked={state?.activity === 'active'}
                                 value="active"
                                 id="active"
                                 name="activity"
@@ -24,8 +24,8 @@ const ChooseActivity = ({setProduct,product}) => {
                         </div>
                         <div className="flex items-center gap-x-3">
                             <input
-                                onChange={(e) => setProduct({ ...product, activity: e.target.value })}
-                                checked={product?.activity === 'draft'}
+                                onChange={(e) => setState({ ...state, activity: e.target.value })}
+                                checked={state?.activity === 'draft'}
                                 value="draft"
                                 id="draft"
                                 name="activity"

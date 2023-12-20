@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Modal = ({ btnOpenModal, title, description, content, open, setOpen, initFeaturedObject }) => {
+const Modal = ({ btnOpenModal, title, description, content, open, setOpen, initState }) => {
   return (
     <>
       {btnOpenModal && (
-        <button className="btn btn-sm my-2" onClick={() => setOpen(true)}>
+        <button type='button' className="btn btn-sm my-2" onClick={() => setOpen(true)}>
           {btnOpenModal}
         </button>
       )}
@@ -20,7 +20,8 @@ const Modal = ({ btnOpenModal, title, description, content, open, setOpen, initF
             <div className="modal-content py-4 text-left px-6">
               <div className="flex justify-end">
                 <button
-                  onClick={() => { setOpen(false), initFeaturedObject() }}
+                  type='button'
+                  onClick={() => { setOpen(false), initState() }}
                   className="btn btn-sm text-lg btn-circle btn-ghost"
                 >
                   ✕

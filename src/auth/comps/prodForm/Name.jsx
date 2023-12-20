@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Name = ({setState,state,placeHolder,keyName}) => {
-    console.log(state);
+    // console.log(state);
     return (
         <div className="sm:col-span-4">
             <label htmlFor={keyName} className="block text-sm font-medium leading-6 text-gray-900">
