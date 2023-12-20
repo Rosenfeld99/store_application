@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { doc, getDoc, collection, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebase/firebase';
-import {Name,BtnsActions,ChooseActivity,Description,Details,Highlights,Media,Options} from '../../comps/prodForm';
+import { Name, BtnsActions, ChooseActivity, Description, Details, Highlights, Media, Options } from '../../comps/prodForm';
 import { useParams } from 'react-router-dom';
 
 let dummyImages = [
@@ -14,6 +14,8 @@ let dummyImages = [
 const ProdAdminDetail = () => {
     const { id } = useParams()
     const [isNewProd, seIsNewProd] = useState(id === "new")
+    const [validateCategory, setValidateCategory] = useState(true)
+
     console.log(isNewProd);
     console.log(id);
     useEffect(() => {
@@ -30,7 +32,7 @@ const ProdAdminDetail = () => {
         }
         !isNewProd && fetchSingleData()
     }, [id])
-    const [product, setProduct] = useState({})
+    const [product, setProduct] = useState({name: "", activity: ""})
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -51,16 +53,21 @@ const ProdAdminDetail = () => {
         }
     }
 
+    useEffect(() => {
+        setValidateCategory(product?.activity === "" || product?.name === "")
+        console.log(product);
+    }, [product])
+
     return (
         <div className=' ml-16 md:ml-44 px-5 py-20 md:px-10 md:py-28'>
             <form onSubmit={handleSubmit}>
                 {/* Btns Action */}
-                <BtnsActions title={isNewProd ? "New Product" : "Edit Product"} />
+                <BtnsActions title={isNewProd ? "New Product" : "Edit Product"} isDataValid={validateCategory} />
                 <div className="space-y-12">
                     <div className=" border-t border-gray-900/10 ">
                         <div className="mt-10 ">
                             {/* Product name */}
-                            <Name placeHolder={"Product name"} keyName={"productName"} setState={setProduct} state={product}/>
+                            <Name placeHolder={"Product name"} keyName={"productName"} setState={setProduct} state={product} />
 
                             {/* Deacription */}
                             <Description product={product} setProduct={setProduct} />
@@ -80,10 +87,10 @@ const ProdAdminDetail = () => {
                         </div>
                     </div>
                     {/* Choose activity */}
-                    <ChooseActivity state={product} setState={setProduct} type={"product"}/>
+                    <ChooseActivity state={product} setState={setProduct} type={"product"} />
                 </div>
                 {/* Btns Action */}
-                <BtnsActions />
+                <BtnsActions isDataValid={validateCategory} />
             </form>
         </div>
     )

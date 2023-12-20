@@ -1,22 +1,48 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Popover, Transition } from '@headlessui/react'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { db } from '../../../firebase/firebase'
+import { Link } from 'react-router-dom'
 
 const NavDesc = ({ navigation, classNames, open, }) => {
+    const [catList, setCatList] = useState([])
+    useEffect(() => {
+        fetchData()
+    }, [])
+    const fetchData = async () => {
+
+        try {
+            const dataList = []
+            const q = query(collection(db, "categories"),where("activity", "==", "active"));
+
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                dataList.push({ id: doc.id, ...doc.data() })
+                // console.log(doc.id, " => ", doc.data());
+            });
+            setCatList(dataList)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    console.log(catList);
     return (
         <>
             <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
-                    {navigation.categories.map((category) => (
+                    {catList.map((category) => (
                         <Popover key={category.name} className="flex">
-                            {({ open }) => (
+                            {({ open , close}) => (
                                 <>
                                     <div className="relative flex">
                                         <Popover.Button
                                             className={classNames(
                                                 open
-                                                    ? 'border-white outline-none text-white'
+                                                    ? 'border-white text-white'
                                                     : 'border-transparent text-white hover:text-gray-800',
-                                                'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
+                                                'relative z-10 -mb-px outline-none flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                             )}
                                         >
                                             {category.name}
@@ -40,7 +66,7 @@ const NavDesc = ({ navigation, classNames, open, }) => {
                                                 <div className="mx-auto max-w-7xl px-8">
                                                     <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
                                                         <div className="col-start-2 grid grid-cols-2 gap-x-8">
-                                                            {category.featured.map((item) => (
+                                                            {category.featured?.slice(0,2).map((item) => (
                                                                 <div key={item.name} className="group relative text-base sm:text-sm">
                                                                     <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                                                                         <img
@@ -72,9 +98,9 @@ const NavDesc = ({ navigation, classNames, open, }) => {
                                                                     >
                                                                         {section.items.map((item) => (
                                                                             <li key={item.name} className="flex">
-                                                                                <a href={item.href} className="hover:text-gray-800">
+                                                                                <Link to={`/products/${item?.href}`} onClick={()=>close()} className="hover:text-gray-800">
                                                                                     {item.name}
-                                                                                </a>
+                                                                                </Link>
                                                                             </li>
                                                                         ))}
                                                                     </ul>

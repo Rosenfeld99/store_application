@@ -27,7 +27,7 @@ const ProdAdmin = () => {
     }
 
     const deleteProduct = async (productId) => {
-        if (confirm("Delete product.?")) {   
+        if (confirm("Delete product.?")) {
             let filterData = prodList.filter((item) => item.id != productId)
             setProdList(filterData)
             await deleteDoc(doc(db, "products", productId));
@@ -58,7 +58,7 @@ const ProdAdmin = () => {
                                 </label>
                             </th>
                             <th className={classesIconTabel}><FaImage /></th>
-                            <th>Name & Categories</th>
+                            <th>Name</th>
                             <th>Status</th>
                             <th className={classesIconTabel}><TbListDetails /></th>
                             <th>In Stock</th>
@@ -78,14 +78,12 @@ const ProdAdmin = () => {
                             <td>
                                 <div className="avatar">
                                     <div className="mask mask-squircle w-12 h-12">
-                                        <img src={product?.images[0]?.src} alt="Avatar Tailwind CSS Component" />
+                                        {product?.images && <img src={product?.images[0]?.src} alt="Avatar Tailwind CSS Component" />}
                                     </div>
                                 </div>
                             </td>
                             <td className=' capitalize'>
-                                {product?.name}
-                                <br />
-                                <span className="badge badge-ghost badge-sm">sets , bracelet , necklace</span>
+                                {product?.name.substring(0, 12)}{product?.name.length >= 12 && "..."}
                             </td>
                             <td>
                                 <span className=' flex items-center gap-2 capitalize'>{product?.activity}
@@ -107,7 +105,7 @@ const ProdAdmin = () => {
                                 <button onClick={() => navigate(`/products/${product?.id}`)} className=' btn btn-sm border-green-700 bg-transparent text-green-700'>
                                     View
                                 </button>
-                                <button onClick={()=>deleteProduct(product?.id)} className=' btn btn-sm border-red-500 bg-transparent text-red-500'>
+                                <button onClick={() => deleteProduct(product?.id)} className=' btn btn-sm border-red-500 bg-transparent text-red-500'>
                                     Delete
                                 </button>
                                 <button onClick={() => navigate(`/admin/products/${product?.id}`)} className=' btn btn-sm border-blue-500 bg-transparent text-blue-500'>
