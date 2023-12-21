@@ -1,6 +1,6 @@
 import React from 'react'
 import {  FaCreditCard, FaHome, FaMedapps, FaUsers } from "react-icons/fa";
-import { BiSolidCategory } from "react-icons/bi";
+import { BiSolidCarousel, BiSolidCategory } from "react-icons/bi";
 import { IoMdSettings } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import Nav from '../nav/Nav';
@@ -11,6 +11,7 @@ const dashboardOption = [
     { name: "users", icon: <FaUsers />, path: '/admin/users' },
     { name: "products", icon: <FaShop />, path: '/admin/products' },
     { name: "categories", icon: <BiSolidCategory />, path: '/admin/categories' },
+    { name: "collections", icon: <BiSolidCarousel />, path: '/admin/collections' },
     { name: "orders", icon: <FaCreditCard />, path: '/admin/orders' },
     { name: "analytics", icon: <FaChartSimple />, path: '/admin/analytics' }, 
     { name: "logs", icon: <FaMedapps />, path: '/admin/logs' }, 

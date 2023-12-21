@@ -1,9 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/firebase';
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import useAuth from '../hooks/useAuth';
 
 const Login = () => {
+    const { handleLoginWithGoogle } = useAuth()
     const navigate = useNavigate()
     const onSub = (e) => {
         e.preventDefault()
@@ -23,12 +24,6 @@ const Login = () => {
             });
     }
 
-    const handleLoginWithGoogle = () => {
-
-        const provider = new GoogleAuthProvider()
-        signInWithPopup(auth, provider)
-        navigate('/')
-    }
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-40 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -93,7 +88,7 @@ const Login = () => {
                     <div className="divider w-56 mx-auto">OR</div>
                     <button
                         type="button"
-                        onClick={handleLoginWithGoogle}
+                        onClick={() => handleLoginWithGoogle(navigate)}
                         className=" items-center gap-3 flex w-full justify-center border-2 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm"
                     >
                         Sign in with Google

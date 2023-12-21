@@ -1,74 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, db } from '../firebase/firebase';
-import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { PhotoIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-import { getUserExists } from '../utils/func/firebaseFunc';
+import useAuth from '../hooks/useAuth';
 
 const Regisetr = () => {
-
-    const navigate = useNavigate()
+    const { handleSignup, handleRegisterWithGoogle } = useAuth()
     const [data, setData] = useState({});
-    const onSub = async (e) => {
-        e.preventDefault();
-        console.log(data);
-        try {
-            const res = await createUserWithEmailAndPassword(
-                auth,
-                data.email,
-                data.password
-            );
-            await setDoc(doc(db, "users", res.user.uid), {
-                email: data.email,
-                displayName: data.displayName,
-                photoURL: data.photoURL || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-                role: "user",
-                timeStamp: serverTimestamp(),
-            });
-            navigate('/login')
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    const navigate = useNavigate()
 
-    const handleLoginWithGoogle = async () => {
-        const provider = new GoogleAuthProvider();
-
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            const user = result.user;
-
-            console.log(user);
-            const userExists = await getUserExists(user);
-
-            if (!userExists) {
-                // User does not exist, create a new document with the user's uid as the document ID
-                const newUserRef = await setDoc(doc(db, "users", user.uid), {
-                    email: user.email,
-                    displayName: user.displayName,
-                    photoURL: user.photoURL,
-                    role: "user",
-                    date: serverTimestamp()
-                });
-
-                console.log("New user created with ID: ", user.uid);
-            } else {
-                // User already exists, do additional login-related logic if needed
-                console.log("User already exists");
-            }
-        } catch (error) {
-            console.error(error);
-        }
-
-        navigate('/');
-    };
-
-    
-
-
+    const onSub = (e) => { handleSignup(e, data,navigate) }
 
     const handleInput = (e) => {
         const id = e.target.id;
@@ -171,7 +111,7 @@ const Regisetr = () => {
                     <div className="divider w-56 mx-auto">OR</div>
                     <button
                         type="button"
-                        onClick={handleLoginWithGoogle}
+                        onClick={() => handleRegisterWithGoogle(navigate)}
                         className=" items-center gap-3 flex w-full justify-center border-2 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm"
                     >
                         Sign up with Google

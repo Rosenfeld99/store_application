@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar'
 import Home from '../pages/Home'
 import ProdOverviews from '../pages/ProdOverviews'
@@ -7,16 +7,16 @@ import SiderLayout from '../auth/comps/siderLayout/SiderLayout'
 import Regisetr from '../pages/Regisetr'
 import Login from '../pages/Login'
 import TabelListUsers from '../auth/admin/users/TabelListUsers'
-import { useContext } from 'react'
-import { AuthContext } from '../context/AuthContext'
 import ProdAdmin from '../auth/admin/pages/ProdAdmin'
 import ProdAdminDetail from '../auth/admin/pages/ProdAdminDetail'
 import CatAdmin from '../auth/admin/pages/CatAdmin'
 import CatAdminDetail from '../auth/admin/pages/CatAdminDetail'
+import useAuth from '../hooks/useAuth'
+import CollectionAdmin from '../auth/admin/pages/CollectionAdmin'
+import CollectionAdminDetail from '../auth/admin/pages/CollectionAdminDetail'
 
 const AppRoutes = () => {
-    const { currentUser } = useContext(AuthContext)
-
+    const { currentUser } = useAuth()
     // console.log(currentUser);
 
     return (
@@ -44,6 +44,8 @@ const AppRoutes = () => {
                 <Route path='/admin/products/:id' element={<ProdAdminDetail />} />
                 <Route path='/admin/categories' element={<CatAdmin />} />
                 <Route path='/admin/categories/:id' element={<CatAdminDetail />} />
+                <Route path='/admin/collections' element={<CollectionAdmin />} />
+                <Route path='/admin/collections/:id' element={<CollectionAdminDetail />} />
                 <Route path='/admin/users' element={<TabelListUsers />} />
             </Routes>}
         </BrowserRouter>

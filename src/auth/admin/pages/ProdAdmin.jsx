@@ -1,43 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FaImage } from 'react-icons/fa';
 import { TbListDetails } from "react-icons/tb";
-import { doc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { db } from '../../../firebase/firebase';
 import { useNavigate } from 'react-router-dom';
+import useProduct from '../../../hooks/useProduct';
 
 const ProdAdmin = () => {
-    const [prodList, setProdList] = useState([])
+    const {productList,setProductList,fetchProductList,deleteProduct} = useProduct()
     const navigate = useNavigate()
-    const fetchData = async () => {
-
-        try {
-            const dataList = []
-            const q = query(collection(db, "products"));
-
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                dataList.push({ id: doc.id, ...doc.data() })
-                // console.log(doc.id, " => ", doc.data());
-            });
-            setProdList(dataList)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const deleteProduct = async (productId) => {
-        if (confirm("Delete product.?")) {
-            let filterData = prodList.filter((item) => item.id != productId)
-            setProdList(filterData)
-            await deleteDoc(doc(db, "products", productId));
-        }
-    }
 
     useEffect(() => {
-        fetchData()
+        fetchProductList()
     }, [])
-    console.log(prodList);
+    console.log(productList);
 
     const classesIconTabel = 'text-xl flex items-center justify-center'
     return (
@@ -68,8 +42,8 @@ const ProdAdmin = () => {
                         </tr>
                     </thead>
                     <tbody className='text-center'>
-                        {/* row 1 */}
-                        {prodList?.map((product, index) => (<tr key={index}>
+                        {/* render products list */}
+                        {productList?.map((product, index) => (<tr key={index}>
                             <th>
                                 <label>
                                     <input type="checkbox" className="checkbox" />

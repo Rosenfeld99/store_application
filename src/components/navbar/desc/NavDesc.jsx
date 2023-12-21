@@ -2,10 +2,11 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../../firebase/firebase'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const NavDesc = ({ navigation, classNames, open, }) => {
     const [catList, setCatList] = useState([])
+    const navigate = useNavigate()
     useEffect(() => {
         fetchData()
     }, [])
@@ -64,28 +65,28 @@ const NavDesc = ({ navigation, classNames, open, }) => {
 
                                             <div className="relative bg-white">
                                                 <div className="mx-auto max-w-7xl px-8">
-                                                    <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
+                                                    <div className={`grid gap-x-8 gap-y-10 py-16 ${category?.featured?.length == 0 || category?.sections?.length == 0 ? " grid-cols-1" : "grid-cols-2"}`}>
                                                         <div className="col-start-2 grid grid-cols-2 gap-x-8">
                                                             {category.featured?.slice(0,2).map((item) => (
-                                                                <div key={item.name} className="group relative text-base sm:text-sm">
-                                                                    <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
+                                                                <div key={item.name} onClick={()=>{navigate(`/products/${item.href}`),close()}} className="group relative text-base sm:text-sm">
+                                                                    <div className="relative w-[100%] pb-[100%] aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                                                                         <img
                                                                             src={item.imageSrc}
                                                                             alt={item.imageAlt}
-                                                                            className="object-cover object-center"
+                                                                            className="w-full h-full object-cover absolute"
                                                                         />
                                                                     </div>
-                                                                    <a href={item.href} className="mt-6 block font-medium text-gray-900">
+                                                                    <p className="mt-6 block font-medium text-gray-900">
                                                                         <span className="absolute inset-0 z-10" aria-hidden="true" />
                                                                         {item.name}
-                                                                    </a>
+                                                                    </p>
                                                                     <p aria-hidden="true" className="mt-1">
                                                                         Shop now
                                                                     </p>
                                                                 </div>
                                                             ))}
                                                         </div>
-                                                        <div className="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
+                                                        <div className={`row-start-1 ${category?.featured?.length == 0 ? ` flex flex-row gap-x-20 flex-wrap` : "grid grid-cols-3"} gap-x-8 gap-y-10 text-sm`}>
                                                             {category.sections.map((section) => (
                                                                 <div key={section.name}>
                                                                     <p id={`${section.name}-heading`} className="font-medium text-gray-900">

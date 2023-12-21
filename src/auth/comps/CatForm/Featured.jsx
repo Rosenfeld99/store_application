@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import { ImageUpload, Input, Modal } from '../../../utils/components'
 import { FaPen, FaTrash } from 'react-icons/fa'
+import SelectProd from '../../../utils/SelectProd/SelectProd'
 
 const Featured = ({ setFeatured, featured }) => {
   const [newFeatured, setNewFeatured] = useState({ href: "", name: "", imageSrc: "", imageAlt: "", id: Date.now() })
   const [isNewFeatured, setIsNewFeatured] = useState(true)
   const [open, setOpen] = useState(false)
+  console.log(newFeatured);
 
   const contentFeatured = <>
+    <SelectProd open={open} funcState={(newSelected)=> setNewFeatured({ href: newSelected?.id, name: newSelected?.name, imageSrc: newSelected?.imageSrc, imageAlt: newSelected?.imageAlt })}/>
+    <div className="divider w-56 mx-auto">OR</div>
     {/* featured Name */}
-    <Input value={newFeatured?.name} setState={''} funcState={(e) => setNewFeatured({ ...newFeatured, "name": e.target.value })} placeholder={"Featured name"} label={"Name"} />
+    <Input value={newFeatured?.name} funcState={(e) => setNewFeatured({ ...newFeatured, "name": e.target.value })} placeholder={"Featured name"} label={"Name"} />
     {/* featured Href */}
-    <Input value={newFeatured?.href} setState={''} funcState={(e) => setNewFeatured({ ...newFeatured, "href": e.target.value })} placeholder={"Featured href"} label={"Href"} />
+    <Input value={newFeatured?.href} funcState={(e) => setNewFeatured({ ...newFeatured, "href": e.target.value })} placeholder={"Featured href"} label={"Href"} />
     {/* featured ImageSrc & ImageAlt*/}
     <ImageUpload state={newFeatured} setState={setNewFeatured} />
     <div className=' flex items-center gap-2'>

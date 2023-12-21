@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../../../context/AuthContext'
+import useAuth from '../../../hooks/useAuth'
 
 const AuthAndCurrency = () => {
-    const { currentUser } = useContext(AuthContext)
+    const { currentUser } = useAuth()
     // console.log(currentUser);
     return (
         <div className="flex h-10 items-center justify-between bg-[#121826] px-4 text-sm font-medium text-white sm:px-6 lg:px-8">

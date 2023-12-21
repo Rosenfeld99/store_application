@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { doc, getDoc, collection, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { doc, collection, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebase/firebase';
 import { Name, BtnsActions, ChooseActivity, Description, Details, Highlights, Media, Options } from '../../comps/prodForm';
 import { useParams } from 'react-router-dom';
-
-let dummyImages = [
-    { src: "http://localhost:5173/sets_worker_silver.png", alt: "some iamge", imageId: 1 },
-    { src: "http://localhost:5173/sets_worker_silver.png", alt: "some iamge", imageId: 2 },
-    { src: "http://localhost:5173/sets_worker_silver.png", alt: "some iamge", imageId: 3 },
-    { src: "http://localhost:5173/sets_worker_silver.png", alt: "some iamge", imageId: 4 },
-]
+import useProduct from '../../../hooks/useProduct';
 
 const ProdAdminDetail = () => {
+    const {fetchSingleProduct} = useProduct()
+    const [product, setProduct] = useState({name: "", activity: ""})
     const { id } = useParams()
     const [isNewProd, seIsNewProd] = useState(id === "new")
     const [validateCategory, setValidateCategory] = useState(true)
@@ -19,20 +15,8 @@ const ProdAdminDetail = () => {
     console.log(isNewProd);
     console.log(id);
     useEffect(() => {
-        const fetchSingleData = async () => {
-            const ref = doc(db, "products", id);
-            const docSnap = await getDoc(ref);
-            if (docSnap.exists()) {
-                // Convert to City object
-                setProduct(docSnap.data())
-                console.log(docSnap.data());
-            } else {
-                console.log("No such document!");
-            }
-        }
-        !isNewProd && fetchSingleData()
+        !isNewProd && fetchSingleProduct(id,setProduct,false)
     }, [id])
-    const [product, setProduct] = useState({name: "", activity: ""})
 
     const handleSubmit = async (e) => {
         e.preventDefault()

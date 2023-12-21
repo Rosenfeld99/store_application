@@ -1,14 +1,14 @@
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Dialog, Menu, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import NavMobile from './mobile/NavMobile'
 import NavDesc from './desc/NavDesc'
 import AuthAndCurrency from './desc/AuthAndCurrency'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../context/AuthContext'
 import { signOut } from "firebase/auth";
 import { auth } from '../../firebase/firebase'
 import Cart from '../cart/Cart'
+import useAuth from '../../hooks/useAuth'
 
 
 const navigation = {
@@ -141,22 +141,11 @@ function classNames(...classes) {
 export default function Example() {
     const [open, setOpen] = useState(false)
     const [openCart, setOpenCart] = useState(false)
-    const { currentUser } = useContext(AuthContext)
+    const { currentUser, handleSignOut } = useAuth()
     const location = useLocation()
     const path = location.pathname
     const navigate = useNavigate()
-
-    const handleSignOut = async (e) => {
-        e.preventDefault()
-
-        signOut(auth).then(() => {
-            // Sign-out successful.
-            navigate('/login')
-        }).catch((error) => {
-            // An error happened.
-            console.log(error);
-        });
-    }
+    const onCLickSignOut = (e) => { handleSignOut(e, navigate) }
     return (
         <>
             {path !== '/register' && path !== '/login' ? <div className="bg-white sticky z-50 top-0">
@@ -250,7 +239,7 @@ export default function Example() {
                                                                     </a>
                                                                 )}
                                                             </Menu.Item>
-                                                            <div onClick={handleSignOut}>
+                                                            <div onClick={onCLickSignOut}>
                                                                 <Menu.Item>
                                                                     {({ active }) => (
                                                                         <button

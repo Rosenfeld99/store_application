@@ -1,30 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FaImage } from 'react-icons/fa';
 import { TbListDetails } from "react-icons/tb";
-import { doc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../firebase/firebase';
+import useUser from '../../../hooks/useUser';
 
 const TabelListUsers = () => {
-  const [usersList, setUsersList] = useState([])
+  const { usersList, setUsersList,fetchUsers } = useUser()
   const navigate = useNavigate()
-  const fetchData = async () => {
 
-    try {
-      const dataList = []
-      const q = query(collection(db, "users"));
-
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        dataList.push({ id: doc.id, ...doc.data() })
-        // console.log(doc.id, " => ", doc.data());
-      });
-      setUsersList(dataList)
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   const deleteProduct = async (userId) => {
     if (confirm("Delete product.?")) {
@@ -35,7 +20,7 @@ const TabelListUsers = () => {
   }
 
   useEffect(() => {
-    fetchData()
+    fetchUsers()
   }, [])
   console.log(usersList);
 
