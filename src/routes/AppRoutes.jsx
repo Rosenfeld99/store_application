@@ -14,6 +14,7 @@ import CatAdminDetail from '../auth/admin/pages/CatAdminDetail'
 import useAuth from '../hooks/useAuth'
 import CollectionAdmin from '../auth/admin/pages/CollectionAdmin'
 import CollectionAdminDetail from '../auth/admin/pages/CollectionAdminDetail'
+import SingleProdCat from '../pages/SingleProdCat'
 
 const AppRoutes = () => {
     const { currentUser } = useAuth()
@@ -34,6 +35,7 @@ const AppRoutes = () => {
                 {/* Store */}
                 <Route index element={<Home />} />
                 <Route path='/products/:id' element={<ProdOverviews />} />
+                <Route path='/category/:id' element={<SingleProdCat />} />
                 {/* Not found */}
                 <Route path='/*' element={<h2>Page 404</h2>} />
             </Routes>
@@ -47,6 +49,7 @@ const AppRoutes = () => {
                 <Route path='/admin/collections' element={<CollectionAdmin />} />
                 <Route path='/admin/collections/:id' element={<CollectionAdminDetail />} />
                 <Route path='/admin/users' element={<TabelListUsers />} />
+                <Route path='/admin/*' element={<h2 className=' ml-16 md:ml-44 px-5 py-20 md:px-10 md:py-28'>Page 404 admin</h2>} />
             </Routes>}
         </BrowserRouter>
     )

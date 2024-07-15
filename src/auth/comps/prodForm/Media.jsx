@@ -1,17 +1,20 @@
-import { PhotoIcon } from '@heroicons/react/24/outline';
-import React from 'react'
+import React, { useState } from 'react'
 import { FaTrashAlt } from 'react-icons/fa';
+import ImageUpload from '../../../utils/components/ImageUpload';
 
-const Media = ({ product,setProduct }) => {
+const Media = ({ product, setProduct }) => {
+    const [uploadImage, setUploadImage] = useState(null)
+    const [imageURL, setImageURL] = useState({ imageSrc: "", imageAlt: "" })
+    console.log(uploadImage);
     const filteredImages = (idDel) => {
         console.log(idDel);
         let filterImages = product?.images?.filter((img) => img.imageId !== idDel)
         setProduct({ ...product, images: filterImages || [] })
     }
 
-    const handleAddImage = (newImage) => {
+    const handleAddImage = (newImageSrc, newImageAlt) => {
         const upDateImages = product.images || []
-        upDateImages?.push({ src: newImage, alt: 'some text', imageId: Date.now() })
+        upDateImages?.push({ src: newImageSrc, alt: newImageAlt, imageId: Date.now() })
         setProduct({ ...product, images: upDateImages })
         console.log(upDateImages);
     }
@@ -41,25 +44,13 @@ const Media = ({ product,setProduct }) => {
                 <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                     Upload photo
                 </label>
-                <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                    <div className="text-center">
-                        <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                        <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                            <label
-                                htmlFor="file-upload"
-                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                            >
-                                <span>Upload a file</span>
-                                <input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={(e) => { handleAddImage(e.target.files[0].name) }} />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
-                        </div>
-                        <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-                    </div>
-                </div>
+                <ImageUpload setState={setUploadImage} state={uploadImage} style=" max-w-[350px]" />
+                {uploadImage?.imageSrc && <button className=' btn btn-sm bg-blue-400 rounded text-white' onClick={() => { handleAddImage(uploadImage?.imageSrc, uploadImage?.imageAlt), setUploadImage(null) }} type='button'>Add</button>}
                 <div className="divider w-56 mx-auto">OR</div>
-                <div className="">
-                    <input type="text" name="file-upload" id="file-upload" placeholder='Image URL' className='border-2 w-full p-3 rounded' onChange={(e) => { handleAddImage(e.target.value) }} />
+                <div className=" lg:flex-row items-center gap-4 flex flex-col">
+                    <input type="text" value={imageURL?.imageSrc} name="file-upload" id="file-upload" placeholder='Image URL' className='border-2 w-full p-3 rounded' onChange={(e) => { setImageURL({ ...imageURL, imageSrc: e.target.value }) }} />
+                    <input type="text" value={imageURL?.imageAlt} name="file-upload" id="file-upload" placeholder='Image Alt' className='border-2 w-full p-3 rounded' onChange={(e) => { setImageURL({ ...imageURL, imageAlt: e.target.value }) }} />
+                    {imageURL?.imageSrc && <button className={` btn bg-blue-400 rounded text-white ${imageURL?.imageSrc === "" || imageURL?.imageAlt === "" ? "disabled:cursor-not-allowed" : " cursor-pointer"}`} onClick={() => { handleAddImage(imageURL?.imageSrc, imageURL?.imageAlt), setImageURL({ imageSrc: "", imageAlt: "" }) }} type='button' disabled={imageURL?.imageSrc === "" || imageURL?.imageAlt === ""}>Add</button>}
                 </div>
             </div>
         </>)

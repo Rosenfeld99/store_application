@@ -10,7 +10,7 @@ const Featured = ({ setFeatured, featured }) => {
   console.log(newFeatured);
 
   const contentFeatured = <>
-    <SelectProd open={open} funcState={(newSelected)=> setNewFeatured({ href: newSelected?.id, name: newSelected?.name, imageSrc: newSelected?.imageSrc, imageAlt: newSelected?.imageAlt })}/>
+    <SelectProd open={open} funcState={(newSelected) => setNewFeatured({ href: newSelected?.id, name: newSelected?.name, imageSrc: newSelected?.imageSrc, imageAlt: newSelected?.imageAlt })} />
     <div className="divider w-56 mx-auto">OR</div>
     {/* featured Name */}
     <Input value={newFeatured?.name} funcState={(e) => setNewFeatured({ ...newFeatured, "name": e.target.value })} placeholder={"Featured name"} label={"Name"} />
@@ -41,13 +41,16 @@ const Featured = ({ setFeatured, featured }) => {
   }
 
   const handleDeleteFeatured = (featuredId) => {
-    const filteredArray = featured?.filter((item) => item?.id !== featuredId)
+    console.log(featured);
+    console.log(featuredId);
+    const filteredArray = featured?.filter((item) => item?.href !== featuredId)
+    console.log(filteredArray);
     setFeatured(filteredArray)
   }
   const handleUpdateFeatured = () => {
     let updateArray = [...featured];
     for (let index = 0; index < featured?.length; index++) {
-      if (featured[index]?.id === newFeatured?.id) {
+      if (featured[index]?.href === newFeatured?.href) {
         console.log(updateArray);
         updateArray[index] = {
           ...updateArray[index],
@@ -85,7 +88,7 @@ const Featured = ({ setFeatured, featured }) => {
               console.log(singleFeatured);
               setIsNewFeatured(false)
             }} className=' btn btn-sm bg-blue-600 hover:bg-blue-700 rounded-md text-white'><FaPen /></button>
-            <button type='button' onClick={() => { handleDeleteFeatured(item?.id) }} className=' btn btn-sm bg-red-600 hover:bg-red-700 rounded-md text-white'><FaTrash /></button>
+            <button type='button' onClick={() => { handleDeleteFeatured(item?.href) }} className=' btn btn-sm bg-red-600 hover:bg-red-700 rounded-md text-white'><FaTrash /></button>
           </div>
         </div>))}
       </div>

@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import Input from './Input';
 import { updateImageToStorage } from '../func/firebaseFunc';
 
-const ImageUpload = ({ setState, state }) => {
+const ImageUpload = ({ setState, state,style }) => {
   const [getDownloadURL, setGetDownloadURL] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -20,7 +20,7 @@ const ImageUpload = ({ setState, state }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <div className="p-6 bg-gray-100 my-5 rounded-md shadow-md">
+    <div className={`p-6 bg-gray-100 my-5 rounded-md shadow-md ${style && state?.imageSrc && style}`}>
       {!state?.imageSrc && (
         <div
           {...getRootProps()}
@@ -36,7 +36,7 @@ const ImageUpload = ({ setState, state }) => {
       )}
 
       { state?.imageSrc && (
-        <div>
+        <div className={` ${style ? style : ""}`}>
           <h4 className="text-lg font-semibold mb-2">Uploaded Image:</h4>
           <div className="relative w-[100%] pb-[100%]">
             <img

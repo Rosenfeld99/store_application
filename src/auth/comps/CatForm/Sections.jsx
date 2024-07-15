@@ -4,6 +4,7 @@ import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { FaPen, FaTrash } from 'react-icons/fa';
 import { fetchAllProducts } from '../../../firebase/func';
+import SelectProdSection from './SelectProdSection';
 
 const Sections = ({ category, sections, setSections }) => {
     const [prodList, setProdList] = useState([])
@@ -57,31 +58,18 @@ const Sections = ({ category, sections, setSections }) => {
         initSection()
         setOpenModalSection(false)
     }
-    
+
     useEffect(() => {
         fetchAllProducts(setProdList)
     }, [])
     return (
         <div className="my-5">
+            <label className="block text-sm font-medium leading-6 text-gray-900 mt-5">
+                sections
+            </label>
             <Modal initState={initSection} open={openModalSection} setOpen={setOpenModalSection} title={isNewSection ? "Add section!" : "Update section!"} content={<>
                 <Input value={newSection?.name} setState={''} funcState={(e) => setNewSection({ ...newSection, "name": e.target.value })} placeholder={"Section name"} label={"Name"} />
-                <label className="block text-sm font-medium leading-6">
-                    Products
-                </label>
-                <div className=" flex flex-col gap-2 rounded-md overflow-x-auto h-full max-h-[180px] border-[1px] input-bordered">
-                    {prodList?.map((item) => (<div key={item?.id} className={`form-control ${newSection?.items?.some((x) => x?.href == item?.id) ? " bg-gray-100" : ""}`}>
-                        <label className="cursor-pointer flex items-center justify-between rounded-md py-1 px-2 w-full select-none hover:bg-gray-100">
-                            <div className=" flex items-center gap-4">
-                                <img className=' w-10 h-10 object-cover rounded-md border-[1px] border-black' src={item?.imageSrc} alt={item?.imageAlt} />
-                                <p className="label-text">{item?.name}</p>
-                            </div>
-                            <input type="checkbox"
-                                onChange={() => handleToggelItemsSections({ href: item?.id, name: item?.name })}
-                                checked={newSection?.items?.some((x) => x?.href == item?.id) ? true : false}
-                                className="checkbox" />
-                        </label>
-                    </div>))}
-                </div>
+                <SelectProdSection handleToggelItemsState={handleToggelItemsSections} newState={newSection} prodList={prodList} />
                 <div className=' flex items-center gap-2 mt-3'>
                     <button type='button' disabled={
                         newSection?.name === "" || newSection?.items?.length === 0} className=' btn btn-sm bg-green-500 hover:bg-green-700 text-white rounded-md' onClick={isNewSection ? () => handleAddSection() : () => handleUpdateSection()

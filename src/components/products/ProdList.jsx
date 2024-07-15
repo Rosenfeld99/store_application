@@ -1,19 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProdItem from './ProdItem'
-import useProduct from '../../hooks/useProduct'
+import useCollection from '../../hooks/useCollection'
 
 const ProdList = () => {
-    const {productList,fetchProductList} = useProduct()
-    
+    const { fetchSingleCollection } = useCollection()
+    const [singleCollection, setSingleCollection] = useState([])
+
     useEffect(() => {
-        fetchProductList()
+        fetchSingleCollection("7qR7YxFFpusFbBrmpyVw", setSingleCollection)
+
     }, [])
-    console.log(productList);
+    console.log(singleCollection);
     return (
         <div className="py-10 xl:px-0 px-4">
-            <h3 className=" py-3 font-bold text-2xl">Hot Products</h3>
+            <h3 className=" py-3 font-bold text-2xl">{singleCollection?.name}</h3>
             <div className="carousel carousel-center space-x-4 rounded-box">
-                {productList?.map((item, i) => (
+                {singleCollection?.items?.map((item, i) => (
                     <ProdItem key={i} item={item} />
                 ))}
             </div>

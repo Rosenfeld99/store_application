@@ -3,13 +3,12 @@ import { ProductContext } from '../context/ProductContext'
 import { collection, deleteDoc, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../firebase/firebase'
 
-const useProduct = () => {
-    const { productList, setProductList, singleProduct, setSingleProduct } = useContext(ProductContext)
-    console.log(productList);
-    const fetchProductList = async () => {
+const useCollection = () => {
+    const { collectionList, setCollectionList, singleCollection, setSingleCollection } = useContext(ProductContext)
+    const fetchCollectionList = async () => {
         try {
             const dataList = []
-            const q = query(collection(db, "products")
+            const q = query(collection(db, "collections")
                 // ,where("activity", "==", "active")
             );
             const querySnapshot = await getDocs(q);
@@ -18,19 +17,19 @@ const useProduct = () => {
                 dataList.push({ id: doc.id, ...doc.data() })
                 // console.log(doc.id, " => ", doc.data());
             });
-            setProductList(dataList)
+            setCollectionList(dataList)
         } catch (error) {
             console.log(error);
         }
     }
 
-    const fetchSingleProduct = async (id, setState, isUpdateGlobalState) => {
-        const ref = doc(db, "products", id);
+    const fetchSingleCollection = async (id, setState, isUpdateGlobalState) => {
+        const ref = doc(db, "collections", id);
         const docSnap = await getDoc(ref);
-        if (docSnap.exists()) {
-            // Convert to City object
-            setState && setState(docSnap.data())
-            isUpdateGlobalState && setSingleProduct(docSnap.data())
+        if (docSnap.exists() && docSnap?.data()?.activity === "active") {
+            // 
+            setState && setState({id,...docSnap.data()})
+            isUpdateGlobalState && setSingleCollection({id,...docSnap.data()})
             console.log(docSnap.data());
         } else {
             console.log("No such document!");
@@ -45,7 +44,7 @@ const useProduct = () => {
         }
     }
 
-    return { productList, setProductList, singleProduct, setSingleProduct, fetchProductList, fetchSingleProduct, deleteProduct }
+    return { collectionList, setCollectionList, singleCollection, setSingleCollection, fetchCollectionList, fetchSingleCollection, deleteProduct }
 }
 
-export default useProduct
+export default useCollection

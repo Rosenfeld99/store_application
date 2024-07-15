@@ -1,18 +1,62 @@
-import { addDoc, collection, doc, getDoc, getDocs, query, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { addDoc, collection as collectionFirebase, doc, getDoc, getDocs, query, serverTimestamp, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { db } from '../../../firebase/firebase';
 import { BtnsActions, ChooseActivity, Name } from '../../comps/prodForm';
 import Featured from '../../comps/CatForm/Featured';
 import Sections from '../../comps/CatForm/Sections';
+import Collection from '../../comps/CatForm/Collection';
+import SelectProdSection from '../../comps/CatForm/SelectProdSection';
+import { fetchAllProducts } from '../../../firebase/func';
 
 const CatAdminDetail = () => {
     const { id } = useParams()
     const [validateCategory, setValidateCategory] = useState(true)
     const [isNewCat, seIsNewCat] = useState(id === "new")
-    const [category, setCategory] = useState({ name: "", activity: "", featured: [], sections: [] })
+    const [category, setCategory] = useState({ name: "", activity: "", featured: [], sections: [], collection: [] })
     const [featured, setFeatured] = useState(category?.featured || [])
     const [sections, setSections] = useState(category?.sections || [])
+
+    const [collection, setCollection] = useState({ name: "", activity: "", items: [] })
+    const [newCollection, setNewCollection] = useState(collection || { name: "", activity: "", items: [] })
+    const [openModalCollection, setOpenModalCollection] = useState(false)
+    const [prodList, setProdList] = useState([])
+    useEffect(() => {
+        fetchAllProducts(setProdList)
+    }, [])
+
+    const initCollection = () => {
+        seIsNewCat(true)
+        return setNewCollection(collection)
+    }
+
+
+    const handleToggelItemsItems = (prodItem) => {
+        console.log(newCollection);
+        console.log(prodItem);
+        const isItemExists = newCollection?.items?.find((item) => item?.href == prodItem?.href)
+        console.log(isItemExists);
+        if (!isItemExists) {
+            console.log("Add");
+            const arrayItems = [...newCollection?.items, prodItem]
+            return setNewCollection({ ...newCollection, "items": arrayItems })
+        } else {
+            console.log("Delete");
+            const deleteItem = newCollection?.items?.filter((item) => item?.href !== prodItem?.href)
+            return setNewCollection({ ...newCollection, "items": deleteItem })
+        }
+    }
+
+    const handleDeleteProd = (idDel) => {
+        const deleteProd = collection?.items?.filter((item) => item?.href !== idDel)
+        setCollection({ ...collection, "items": deleteProd })
+    }
+    console.log(collection);
+    console.log(category);
+
+
+
+
 
     useEffect(() => {
         const fetchSingleData = async () => {
@@ -22,6 +66,7 @@ const CatAdminDetail = () => {
                 setCategory(docSnap.data())
                 setFeatured(docSnap.data()?.featured)
                 setSections(docSnap.data()?.sections)
+                setCollection(docSnap.data()?.collection || [])
                 // console.log(docSnap.data());
             } else {
                 console.log("No such document!");
@@ -38,6 +83,10 @@ const CatAdminDetail = () => {
         setCategory({ ...category, "sections": sections })
     }, [sections])
     useEffect(() => {
+        setCategory({ ...category, "collection": collection })
+        setNewCollection(collection || category?.collection)
+    }, [collection])
+    useEffect(() => {
         setValidateCategory(category?.activity === "" || category?.name === "")
         console.log(category);
     }, [category])
@@ -46,7 +95,7 @@ const CatAdminDetail = () => {
         e.preventDefault()
         if (isNewCat) {
             // Add a new document with a generated id.
-            const docRef = await addDoc(collection(db, "categories"), {
+            const docRef = await addDoc(collectionFirebase(db, "categories"), {
                 ...category,
                 date: serverTimestamp()
             });
@@ -61,7 +110,7 @@ const CatAdminDetail = () => {
             });
         }
     }
-    
+
     return (
         <div className=' ml-16 md:ml-44 px-5 py-20 md:px-10 md:py-28'>
             <form onSubmit={handleSubmit}>
@@ -76,6 +125,19 @@ const CatAdminDetail = () => {
                             <Featured setFeatured={setFeatured} featured={featured} />
                             {/* Sections */}
                             <Sections category={category} sections={sections} setSections={setSections} />
+                            {/* Collections */}
+                            <Collection initState={initCollection} open={openModalCollection} setOpen={setOpenModalCollection} title={isNewCat ? "Add products!" : "Update products!"} content={<>
+                                <SelectProdSection handleToggelItemsState={handleToggelItemsItems} newState={newCollection} prodList={prodList} />
+                                <div className=' flex items-center gap-2 mt-3'>
+                                    <button type='button' disabled={
+                                        newCollection?.items?.length === 0} className=' btn btn-sm bg-green-500 hover:bg-green-700 text-white rounded-md' onClick={() => { setCollection({ ...collection, "items": newCollection?.items }), setOpenModalCollection(false) }
+                                        }>{false ? "Add" : "Update"}</button>
+                                    <button type='button' onClick={() => {
+                                        setOpenModalCollection(false), initCollection()
+                                    }} className=' btn btn-sm rounded-md'>Cancel</button>
+                                </div>
+                            </>
+                            } state={collection} handleDeleteProd={handleDeleteProd} />
                             {/* Choose Activity */}
                             <ChooseActivity state={category} setState={setCategory} type={"category"} />
                         </div>
